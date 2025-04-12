@@ -1,24 +1,43 @@
-import { serialize } from 'next-mdx-remote/serialize';
-import { MDXRemote } from 'next-mdx-remote';
-import { nodeTypes } from '@mdx-js/mdx';
-import Head from 'next/head';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { serialize } from 'next-mdx-remote/serialize';
+import { nodeTypes } from '@mdx-js/mdx';
 import rehypeRaw from 'rehype-raw';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkObsidian from 'remark-obsidian';
 import remarkEmoji from 'remark-emoji';
 import remarkGfm from 'remark-gfm';
 import remarkComment from 'remark-comment';
-import components from '../lib/components';
-import { getContent } from '../lib/utils';
+import Markdown from '../../components/markdown';
+import { getContent, getContentList, getOptions } from '../../lib/utils';
 
-const Page = ({ title, content }) => {
-    const { siteName, indexFile, showNavigation } = JSON.parse(process.env.OPTIONS);
-    const contents = JSON.parse(process.env.CONTENTS).sort((a, b) => a.fileName.localeCompare(b.fileName));
+const Page = async ({ params }) => {
+    const { permalink } = await params;
+    const contents = (await getContentList()).sort((a, b) => a.fileName.localeCompare(b.fileName));
+    const { siteName, indexFile, showNavigation } = await getOptions();
+    const { markdown } = await getContent(permalink);
+
+    const content = await serialize(markdown, {
+        parseFrontmatter: true,
+        mdxOptions: {
+            remarkPlugins: [
+                remarkObsidian,
+                remarkFrontmatter,
+                remarkEmoji,
+                remarkGfm,
+                [remarkComment, { ast: true }],
+                [(await import('mdx-mermaid')).default, { output: 'svg' }], // eslint-disable-line
+            ],
+            rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }]],
+        },
+    });
+
+    if (!markdown) {
+        notFound();
+    }
 
     return (
         <div className={`published-container print ${showNavigation ? 'has-navigation' : ''}`}>
-            <Head><title>{title}</title></Head>
             <div className="site-body">
                 {showNavigation && (
                     <div className="site-body-left-column">
@@ -29,11 +48,11 @@ const Page = ({ title, content }) => {
                                 <div className="nav-view">
                                     <div className="tree-item">
                                         <div className="tree-item-children">
-                                            {contents.map(({ fileName, permalink }) => (
+                                            {contents.map(({ fileName, permalink: link }) => (
                                                 <div key={fileName} className="tree-item">
                                                     <div className="tree-item-self is-clickable" data-path={fileName}>
                                                         <div className="tree-item-inner">
-                                                            <Link href={permalink}>{fileName}</Link>
+                                                            <Link href={link}>{fileName}</Link>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -54,7 +73,7 @@ const Page = ({ title, content }) => {
                             <div className="publish-renderer">
                                 <div className="markdown-preview-view markdown-rendered node-insert-event">
                                     <div className="markdown-preview-sizer markdown-preview-section">
-                                        <MDXRemote {...content} components={components} />
+                                        <Markdown content={content} />
                                     </div>
                                 </div>
                             </div>
@@ -66,35 +85,17 @@ const Page = ({ title, content }) => {
     );
 };
 
-export const getStaticProps = async ({ params }) => {
-    const { title, markdown } = await getContent(params.permalink);
+export const generateMetadata = async ({ params }) => {
+    const { permalink } = await params;
+    const { title } = await getContent(permalink);
 
-    const content = await serialize(markdown, {
-        parseFrontmatter: true,
-        mdxOptions: {
-            remarkPlugins: [
-                remarkObsidian,
-                remarkFrontmatter,
-                remarkEmoji,
-                remarkGfm,
-                [remarkComment, { ast: true }],
-                [(await import('mdx-mermaid')).default, { output: 'svg' }], // eslint-disable-line
-            ],
-            rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }]],
-        },
-    });
-
-    return { props: { title, content } };
+    return { title };
 };
 
-export const getStaticPaths = async () => {
-    const contents = JSON.parse(process.env.CONTENTS);
+export const generateStaticParams = async () => {
+    const contents = await getContentList();
 
-    const paths = contents.map(({ permalink }) => ({
-        params: { permalink },
-    }));
-
-    return { paths, fallback: false };
+    return contents.map(({ permalink }) => ({ permalink }));
 };
 
 export default Page;

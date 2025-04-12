@@ -20,10 +20,7 @@ if (indexFile) {
 
 export default {
     devIndicators: false,
-    env: {
-        CONTENTS: JSON.stringify(contents),
-        OPTIONS: JSON.stringify(options),
-    },
+    transpilePackages: ['next-mdx-remote'],
     async redirects() {
         return redirects;
     },

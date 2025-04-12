@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import { getOptions } from '../lib/utils';
 
-export default () => {
-    const { indexFile, siteName } = JSON.parse(process.env.OPTIONS);
+export default async () => {
+    const { indexFile, siteName } = await getOptions();
 
     return (
         <div className="published-container print">

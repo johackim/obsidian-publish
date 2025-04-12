@@ -9,6 +9,7 @@ A simple and fast static site generator for Obsidian Publish.
 - [x] Mermaid
 - [x] Page 404
 - [x] Navigation
+- [x] Redirects
 - [ ] Dark mode
 - [ ] Favicon
 - [ ] SEO
