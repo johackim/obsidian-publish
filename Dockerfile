@@ -16,7 +16,7 @@ RUN rm -rf node_modules
 
 RUN yarn install --prod --ignore-optional
 
-FROM gcr.io/distroless/nodejs20
+FROM gcr.io/distroless/nodejs22
 
 WORKDIR /app
 
