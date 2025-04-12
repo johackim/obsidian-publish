@@ -1,6 +1,12 @@
 # Obsidian Publish
 
-A simple and fast static site generator for Obsidian Publish.
+A self-hosted alternative to [Obsidian Publish](https://obsidian.md/publish) with additional features.
+
+## 🧐 Why?
+
+Obsidian Publish is awesome, but you can't customize SEO, robots.txt, rss.xml & sitemap.xml.
+
+So, I created this project to self-host your Obsidian Publish vault with these features.
 
 ## ✨ Features
 
@@ -11,6 +17,7 @@ A simple and fast static site generator for Obsidian Publish.
 - [x] Navigation
 - [x] Redirects
 - [x] Dark mode
+- [ ] Responsive
 - [ ] Favicon
 - [ ] SEO
 - [ ] RSS feed
@@ -28,7 +35,7 @@ A simple and fast static site generator for Obsidian Publish.
 Install the dependencies:
 
 ```bash
-npm install
+yarn install
 ```
 
 Create a `.env` file with your Obsidian Publish site ID:
