@@ -1,5 +1,6 @@
 import { getContentList, getOptions } from './lib/utils.js';
 
+const options = await getOptions();
 const contents = await getContentList();
 
 const redirects = contents
@@ -10,7 +11,7 @@ const redirects = contents
         permanent: true,
     }));
 
-const { indexFile } = await getOptions();
+const { indexFile } = options;
 
 if (indexFile) {
     const permalink = contents.find(({ fileName }) => fileName === indexFile)?.permalink || indexFile;
@@ -19,6 +20,10 @@ if (indexFile) {
 
 export default {
     devIndicators: false,
+    env: {
+        CONTENTS: JSON.stringify(contents),
+        OPTIONS: JSON.stringify(options),
+    },
     async redirects() {
         return redirects;
     },
