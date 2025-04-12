@@ -10,7 +10,7 @@ A simple and fast static site generator for Obsidian Publish.
 - [x] Page 404
 - [x] Navigation
 - [x] Redirects
-- [ ] Dark mode
+- [x] Dark mode
 - [ ] Favicon
 - [ ] SEO
 - [ ] RSS feed

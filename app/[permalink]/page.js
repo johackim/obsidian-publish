@@ -8,13 +8,14 @@ import remarkObsidian from 'remark-obsidian';
 import remarkEmoji from 'remark-emoji';
 import remarkGfm from 'remark-gfm';
 import remarkComment from 'remark-comment';
+import Switch from '../../components/switch';
 import Markdown from '../../components/markdown';
 import { getContent, getContentList, getOptions } from '../../lib/utils';
 
 const Page = async ({ params }) => {
     const { permalink } = await params;
     const contents = (await getContentList()).sort((a, b) => a.fileName.localeCompare(b.fileName));
-    const { siteName, indexFile, showNavigation } = await getOptions();
+    const { siteName, indexFile, showNavigation, showThemeToggle } = await getOptions();
     const { markdown } = await getContent(permalink);
 
     const content = await serialize(markdown, {
@@ -44,6 +45,7 @@ const Page = async ({ params }) => {
                         <div className="site-body-left-column-inner">
                             <Link className="site-body-left-column-site-logo" aria-label={`${siteName} logo`} href={`/${indexFile}`} />
                             <Link className="site-body-left-column-site-name" aria-label={siteName} href={`/${indexFile}`}>{siteName}</Link>
+                            {showThemeToggle && (<Switch />)}
                             <div className="nav-view-outer">
                                 <div className="nav-view">
                                     <div className="tree-item">
