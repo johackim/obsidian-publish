@@ -1,16 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { serialize } from 'next-mdx-remote/serialize';
-import { nodeTypes } from '@mdx-js/mdx';
-import rehypeRaw from 'rehype-raw';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkObsidian from 'remark-obsidian';
-import remarkEmoji from 'remark-emoji';
-import remarkGfm from 'remark-gfm';
-import remarkComment from 'remark-comment';
 import Markdown from '../../components/markdown';
 import Navigation from '../../components/navigation';
-import { getContent, getContentList, getOptions } from '../../lib/utils';
+import { getContent, getContentList, getOptions, compileMdxToJs } from '../../lib/utils';
 
 const Page = async ({ params }) => {
     const options = await getOptions();
@@ -20,24 +12,9 @@ const Page = async ({ params }) => {
 
     const contents = (await getContentList()).sort((a, b) => a.fileName.localeCompare(b.fileName));
 
-    const content = await serialize(markdown, {
-        parseFrontmatter: true,
-        mdxOptions: {
-            remarkPlugins: [
-                remarkObsidian,
-                remarkFrontmatter,
-                remarkEmoji,
-                remarkGfm,
-                [remarkComment, { ast: true }],
-                [(await import('mdx-mermaid')).default, { output: 'svg' }], // eslint-disable-line
-            ],
-            rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }]],
-        },
-    });
+    const content = await compileMdxToJs(markdown);
 
-    if (!markdown) {
-        notFound();
-    }
+    if (!markdown) notFound();
 
     return (
         <div className={`published-container print ${showNavigation ? 'has-navigation' : ''}`}>
