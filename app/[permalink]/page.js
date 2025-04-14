@@ -8,15 +8,17 @@ import remarkObsidian from 'remark-obsidian';
 import remarkEmoji from 'remark-emoji';
 import remarkGfm from 'remark-gfm';
 import remarkComment from 'remark-comment';
-import Switch from '../../components/switch';
 import Markdown from '../../components/markdown';
+import Navigation from '../../components/navigation';
 import { getContent, getContentList, getOptions } from '../../lib/utils';
 
 const Page = async ({ params }) => {
+    const options = await getOptions();
     const { permalink } = await params;
-    const contents = (await getContentList()).sort((a, b) => a.fileName.localeCompare(b.fileName));
-    const { siteName, indexFile, showNavigation, showThemeToggle } = await getOptions();
     const { markdown } = await getContent(permalink);
+    const { siteName, indexFile, showNavigation } = options;
+
+    const contents = (await getContentList()).sort((a, b) => a.fileName.localeCompare(b.fileName));
 
     const content = await serialize(markdown, {
         parseFrontmatter: true,
@@ -40,32 +42,7 @@ const Page = async ({ params }) => {
     return (
         <div className={`published-container print ${showNavigation ? 'has-navigation' : ''}`}>
             <div className="site-body">
-                {showNavigation && (
-                    <div className="site-body-left-column">
-                        <div className="site-body-left-column-inner">
-                            <Link className="site-body-left-column-site-logo" aria-label={`${siteName} logo`} href={`/${indexFile}`} />
-                            <Link className="site-body-left-column-site-name" aria-label={siteName} href={`/${indexFile}`}>{siteName}</Link>
-                            {showThemeToggle && (<Switch />)}
-                            <div className="nav-view-outer">
-                                <div className="nav-view">
-                                    <div className="tree-item">
-                                        <div className="tree-item-children">
-                                            {contents.map(({ fileName, permalink: link }) => (
-                                                <div key={fileName} className="tree-item">
-                                                    <div className="tree-item-self is-clickable" data-path={fileName}>
-                                                        <div className="tree-item-inner">
-                                                            <Link href={link}>{fileName}</Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                {showNavigation && <Navigation contents={contents} {...options} />}
                 <div className="site-body-center-column">
                     <div className="site-header">
                         <Link href={`/${indexFile}`} className="site-header-text">{siteName}</Link>
