@@ -17,7 +17,7 @@ So, I created this project to self-host your Obsidian Publish vault with these f
 - [x] Navigation
 - [x] Redirects
 - [x] Dark mode
-- [ ] Responsive
+- [x] Responsive
 - [ ] Favicon
 - [ ] SEO
 - [ ] RSS feed
