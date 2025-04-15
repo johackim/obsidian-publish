@@ -1,5 +1,5 @@
 import { ThemeProvider } from '../lib/contexts';
-import '../styles/globals.css';
+import './globals.css';
 
 export default ({ children }) => (
     <ThemeProvider>
