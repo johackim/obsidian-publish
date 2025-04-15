@@ -18,9 +18,9 @@ So, I created this project to self-host your Obsidian Publish vault with these f
 - [x] Redirects
 - [x] Dark mode
 - [x] Responsive
+- [x] RSS feed
 - [ ] Favicon
 - [ ] SEO
-- [ ] RSS feed
 - [ ] Analytics
 - [ ] Embed web pages
 - [ ] Table of contents
@@ -38,10 +38,10 @@ Install the dependencies:
 yarn install
 ```
 
-Create a `.env` file with your Obsidian Publish site ID:
+Setup the environment variables:
 
 ```bash
-echo 'OBSIDIAN_SITE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' > .env
+cp .env.dist .env
 ```
 
 Run the development server:
