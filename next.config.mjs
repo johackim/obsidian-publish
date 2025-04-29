@@ -19,6 +19,7 @@ if (indexFile) {
 }
 
 export default {
+    output: 'standalone',
     devIndicators: false,
     transpilePackages: ['next-mdx-remote'],
     async redirects() {
