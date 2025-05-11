@@ -12,7 +12,7 @@ import { getContent, getContentList } from '../../lib/utils';
 
 const Page = async ({ params }) => {
     const { permalink } = await params;
-    const { markdown } = await getContent(permalink);
+    const { markdown } = await getContent(decodeURIComponent(permalink));
 
     if (!markdown) notFound();
 
@@ -53,7 +53,7 @@ export const generateMetadata = async ({ params }) => {
 export const generateStaticParams = async () => {
     const contents = await getContentList();
 
-    return contents.map(({ permalink }) => ({ permalink }));
+    return contents.map(({ permalink }) => ({ permalink: encodeURIComponent(permalink) }));
 };
 
 export default Page;
