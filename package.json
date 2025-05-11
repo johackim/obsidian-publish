@@ -2,7 +2,7 @@
   "dependencies": {
     "mdx-mermaid": "^2.0.3",
     "next": "^15.3.0",
-    "next-mdx-remote": "^5.0.0",
+    "next-mdx-remote-client": "^2.1.2",
     "rehype-raw": "^7.0.0",
     "remark-comment": "^1.0.0",
     "remark-emoji": "^5.0.1",

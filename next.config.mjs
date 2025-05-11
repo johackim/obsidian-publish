@@ -2,6 +2,7 @@ import { getContentList, getOptions } from './lib/utils.js';
 
 const options = await getOptions();
 const contents = await getContentList();
+const navigation = contents.map(({ fileName, permalink }) => ({ fileName, permalink })).sort((a, b) => a.fileName.localeCompare(b.fileName));
 
 const redirects = contents
     .filter(({ fileName, permalink }) => fileName.toLowerCase() !== permalink.toLowerCase())
@@ -21,7 +22,7 @@ if (indexFile) {
 export default {
     output: 'standalone',
     devIndicators: false,
-    transpilePackages: ['next-mdx-remote'],
+    env: { options: JSON.stringify(options), navigation: JSON.stringify(navigation) },
     async redirects() {
         return redirects;
     },

@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Markdown from '../../components/markdown';
-import Navigation from '../../components/navigation';
+import Navigation from '../components/navigation';
 
-export default ({ options, contents, content }) => {
+export default ({ children }) => {
+    const options = JSON.parse(process.env.options);
+    const contents = JSON.parse(process.env.navigation);
+
     const { siteName, indexFile, showNavigation } = options;
     const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
@@ -25,15 +27,7 @@ export default ({ options, contents, content }) => {
                         <Link href={`/${indexFile}`} className="site-header-text">{siteName}</Link>
                     </div>
                     <div className="render-container">
-                        <div className="render-container-inner">
-                            <div className="publish-renderer">
-                                <div className="markdown-preview-view markdown-rendered node-insert-event">
-                                    <div className="markdown-preview-sizer markdown-preview-section">
-                                        <Markdown content={content} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {children}
                     </div>
                 </div>
             </div>

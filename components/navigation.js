@@ -18,11 +18,11 @@ export default ({ contents, siteName, indexFile, showThemeToggle = false }) => {
                     <div className="nav-view">
                         <div className="tree-item">
                             <div className="tree-item-children">
-                                {contents.map(({ fileName, permalink: link }) => (
+                                {contents.map(({ fileName, permalink }) => (
                                     <div key={fileName} className="tree-item">
-                                        <div className={`tree-item-self is-clickable ${currentPath === `/${link}` ? 'mod-active' : ''}`} onClick={() => router.push(link)}> {/* eslint-disable-line */}
+                                        <div className={`tree-item-self is-clickable ${currentPath === `/${permalink}` ? 'mod-active' : ''}`} onClick={() => router.push(permalink)}> {/* eslint-disable-line */}
                                             <div className="tree-item-inner">
-                                                <Link href={link}>{fileName}</Link>
+                                                <Link href={permalink}>{fileName}</Link>
                                             </div>
                                         </div>
                                     </div>
