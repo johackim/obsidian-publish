@@ -1,5 +1,7 @@
 import { getContentList } from '../lib/utils.js';
 
+export const revalidate = 30;
+
 export default async () => {
     const contents = await getContentList();
 

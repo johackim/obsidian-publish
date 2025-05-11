@@ -1,6 +1,8 @@
 import RSS from 'rss';
 import { getContentList } from '../../lib/utils';
 
+export const revalidate = 30;
+
 export const GET = async () => {
     const contents = (await getContentList()).sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
 

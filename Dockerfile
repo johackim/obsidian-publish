@@ -14,14 +14,18 @@ RUN yarn build
 
 RUN rm -rf node_modules
 
+RUN yarn install --prod --ignore-optional
+
 FROM gcr.io/distroless/nodejs22
 
 WORKDIR /app
 
-COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/out ./
+
+COPY --from=build /app/node_modules/ ./node_modules/
 
 ENV NODE_ENV=production
 
 EXPOSE 3000
 
-CMD ["server.js"]
+CMD ["node_modules/.bin/serve"]
