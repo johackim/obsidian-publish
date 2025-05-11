@@ -4,15 +4,15 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Switch from './switch';
 
-export default ({ contents, siteName, indexFile, showThemeToggle = false }) => {
+export default ({ contents, siteName, showThemeToggle = false }) => {
     const currentPath = usePathname();
     const router = useRouter();
 
     return (
         <div className="site-body-left-column">
             <div className="site-body-left-column-inner">
-                <Link className="site-body-left-column-site-logo" aria-label={`${siteName} logo`} href={`/${indexFile}`} />
-                <Link className="site-body-left-column-site-name" aria-label={siteName} href={`/${indexFile}`}>{siteName}</Link>
+                <Link className="site-body-left-column-site-logo" aria-label={`${siteName} logo`} href="/" />
+                <Link className="site-body-left-column-site-name" aria-label={siteName} href="/">{siteName}</Link>
                 {showThemeToggle && (<Switch />)}
                 <div className="nav-view-outer">
                     <div className="nav-view">

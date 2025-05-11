@@ -8,7 +8,7 @@ export default ({ children }) => {
     const options = JSON.parse(process.env.options);
     const contents = JSON.parse(process.env.navigation);
 
-    const { siteName, indexFile, showNavigation } = options;
+    const { siteName, showNavigation } = options;
     const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
     return (
@@ -24,7 +24,7 @@ export default ({ children }) => {
                                 <line x1="4" y1="18" x2="20" y2="18" />
                             </svg>
                         </div>
-                        <Link href={`/${indexFile}`} className="site-header-text">{siteName}</Link>
+                        <Link href="/" className="site-header-text">{siteName}</Link>
                     </div>
                     <div className="render-container">
                         {children}
