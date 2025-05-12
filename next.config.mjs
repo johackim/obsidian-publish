@@ -5,7 +5,7 @@ const contents = await getContentList();
 const navigation = contents.map(({ fileName, permalink }) => ({ fileName, permalink })).sort((a, b) => a.fileName.localeCompare(b.fileName));
 
 export default {
-    output: 'export',
     devIndicators: false,
+    output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
     env: { options: JSON.stringify(options), navigation: JSON.stringify(navigation) },
 };
