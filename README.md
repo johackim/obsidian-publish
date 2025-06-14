@@ -6,7 +6,7 @@ A self-hosted alternative to [Obsidian Publish](https://obsidian.md/publish) wit
 
 Obsidian Publish is awesome, but you can't customize SEO, robots.txt, rss.xml & sitemap.xml.
 
-So, I created this project to self-host your Obsidian Publish vault with these features.
+So, I created this project to self-host my Obsidian Publish vault with theses features.
 
 ## ✨ Features
 
