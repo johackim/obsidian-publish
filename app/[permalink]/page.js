@@ -8,7 +8,7 @@ import remarkEmoji from 'remark-emoji';
 import remarkGfm from 'remark-gfm';
 import remarkComment from 'remark-comment';
 import components from '../../lib/components';
-import { getContent, getContentList } from '../../lib/utils';
+import { getContent, getContentList, rehypeNoParagraphsInListItems } from '../../lib/utils';
 
 const Page = async ({ params }) => {
     const { permalink } = await params;
@@ -26,7 +26,7 @@ const Page = async ({ params }) => {
                 [remarkComment, { ast: true }],
                 [(await import('mdx-mermaid')).default, { output: 'svg' }], // eslint-disable-line
             ],
-            rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }]],
+            rehypePlugins: [[rehypeRaw, { passThrough: nodeTypes }], rehypeNoParagraphsInListItems],
         },
     };
 
